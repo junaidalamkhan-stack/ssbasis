@@ -1,0 +1,26 @@
+  [ OK ] Example 4.2            m=5, 2 kernel generators, verdict SS-basis
+  [ OK ] Example 4.4            m=4, 4 kernel generators, verdict SS-basis
+  [ OK ] Example 4.5 (Q         m=4, 2 kernel generators, verdict not SS-basis
+  [ OK ] Example 4.5 (Q         m=5, 3 kernel generators, verdict SS-basis
+  [ OK ] Example 4.6            m=3, 3 kernel generators, verdict SS-basis
+  [ OK ] Example 4.7            m=3, 1 kernel generators, verdict not SS-basis
+  [ OK ] Example 4.7            m=4, 4 kernel generators, verdict SS-basis
+  [ OK ] Example 4.9            m=4, 3 kernel generators, verdict SS-basis
+  [ OK ] Example 4.10           m=4, 3 kernel generators, verdict SS-basis
+  [ OK ] Example 2.5            m=3, 1 kernel generators, verdict SS-basis
+  [ OK ] Example 4.12 (non-reduced m=1, 1 kernel generators, verdict not SS-basis
+  [ OK ] Example 4.12 in characteristic 2 m=2, 1 kernel generators, verdict SS-basis
+  [ OK ] Example 4.12 in characteristic 3 m=3, 3 kernel generators, verdict SS-basis
+  [ OK ] Q1:                    m=1, 1 kernel generators, verdict not SS-basis
+  [ OK ] Q2:                    m=2, 1 kernel generators, verdict SS-basis
+  [ OK ] Q4:                    m=4, 4 kernel generators, verdict SS-basis
+  [ OK ] Q5:                    m=2, 2 kernel generators, verdict SS-basis
+  [ OK ] Z2:                    m=3, 3 kernel generators, verdict SS-basis
+  [ OK ] Z3-Z7                  m=2, 1 kernel generators, verdict SS-basis
+  [ OK ] Z3-Z7                  m=2, 1 kernel generators, verdict SS-basis
+  [ OK ] Z3-Z7                  m=2, 1 kernel generators, verdict SS-basis
+  [ OK ] Z3-Z7                  m=2, 1 kernel generators, verdict SS-basis
+  [ OK ] Z3-Z7                  m=2, 1 kernel generators, verdict SS-basis
+
+blocks 23, kernel generators 47, liftings 43, no-lifting verdicts 4
+ALL CHECKS PASSED

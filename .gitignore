@@ -1,0 +1,12 @@
+# output of run_tests.sh when a session differs from the stored output
+*.new
+# Python
+__pycache__/
+*.pyc
+# Lean
+*.olean
+*.ilean
+.lake/
+# editors / OS
+*~
+.DS_Store

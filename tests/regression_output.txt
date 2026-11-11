@@ -1,0 +1,178 @@
+===== Q1: Q[x,y]/(x^2), F = {y+xy}.  Expected: NOT an SS-basis (v1.0 said SS-basis)
+Generators, degrees, leading forms:
+  f1 = xy+y   degree (2)   leading form: xy
+Generators of ker(pi): 1
+u1 = Y1^2   Omega (4)
+   NO lifting; psi(u1) has the nonzero normal form 2xy2+y2
+RESULT: NOT an SS-basis
+  Algorithm 1, 3 passes (expected: does not terminate; adjoins 2xy2+y2, ...):
+_[1]=xy+y
+_[2]=2xy2+y2
+_[3]=3xy3+y3
+_[4]=4xy4+y4
+_[5]=5xy5+y5
+_[6]=-5xy5-y5
+_[7]=6xy6+y6
+_[8]=-6xy6-y6
+_[9]=7xy7+y7
+_[10]=8xy8+y8
+  terminated:
+0
+===== Q2: F_2[x,y]/(x^2), F = {y+xy, y^2}.  Expected: SS-basis, lifting Y1^2-Y2 (v1.0 printed Y1^2)
+Generators, degrees, leading forms:
+  f1 = xy+y   degree (2)   leading form: xy
+  f2 = y2   degree (2)   leading form: y2
+Generators of ker(pi): 1
+u1 = Y1^2   Omega (4)
+   lifting: Y1^2+Y2
+RESULT: every generator lifts, so the generators form an SS-basis
+===== Q3: F_2[x,y]/(x^2), F = {y+xy}: completion.  Expected: terminates, adjoining y2
+_[1]=xy+y
+_[2]=y2
+  passes:
+2
+  terminated:
+1
+===== Q4: F_3[x,y]/(x^2), F = {y+xy}: completion.  Expected: terminates; leading forms xy, 2xy2, y3
+_[1]=xy+y
+_[2]=-xy2+y2
+_[3]=y3
+_[4]=xy4+y4
+  passes:
+3
+  terminated:
+1
+Generators, degrees, leading forms:
+  f1 = xy+y   degree (2)   leading form: xy
+  f2 = -xy2+y2   degree (3)   leading form: -xy2
+  f3 = y3   degree (3)   leading form: y3
+  f4 = xy4+y4   degree (5)   leading form: xy4
+Generators of ker(pi): 4
+u1 = Y1^2   Omega (4)
+   lifting: Y1^2-Y2
+u2 = Y1*Y3-Y4   Omega (5)
+   lifting: Y1*Y3-Y4
+u3 = Y1*Y2   Omega (5)
+   lifting: Y1*Y2-Y3
+u4 = Y2^2   Omega (6)
+   lifting: Y2^2-Y4
+RESULT: every generator lifts, so the generators form an SS-basis
+===== Q5: Z/4[x,y]/(xy), F = {x+y, 2x}.  quotient ring over Z/4
+Generators, degrees, leading forms:
+  f1 = x+y   degree (1)   leading form: x+y
+  f2 = 2x   degree (1)   leading form: 2x
+Generators of ker(pi): 2
+u1 = 2*Y2   Omega (1)
+   lifting: 2*Y2
+u2 = Y2^2   Omega (2)
+   lifting: Y2^2
+RESULT: every generator lifts, so the generators form an SS-basis
+===== Z1: degree-0 variable: Q[x,y], W = (1,0), so S = Q[y]; F = {x, xy+1}.  Expected: SS-basis, lifting Y2-y*Y1-1
+Generators, degrees, leading forms:
+  f1 = x   degree (1)   leading form: x
+  f2 = xy+1   degree (1)   leading form: xy
+Generators of ker(pi): 1
+u1 = y*Y1-Y2   Omega (1)
+   lifting: y*Y1-Y2+1
+RESULT: every generator lifts, so the generators form an SS-basis
+===== Z2: constants allowed: Z/4, F = {2, x+y, 2x}
+Generators, degrees, leading forms:
+  f1 = 2   degree (0)   leading form: 2
+  f2 = x+y   degree (1)   leading form: x+y
+  f3 = 2x   degree (1)   leading form: 2x
+Generators of ker(pi): 3
+u1 = Y1+2   Omega (0)
+   lifting: Y1+2
+u2 = 2*Y3   Omega (1)
+   lifting: 2*Y3
+u3 = Y3^2   Omega (2)
+   lifting: Y3^2
+RESULT: every generator lifts, so the generators form an SS-basis
+===== Z3-Z7: over Z
+Generators, degrees, leading forms:
+  f1 = 2x+1   degree (1)   leading form: 2x
+  f2 = 3x   degree (1)   leading form: 3x
+Generators of ker(pi): 1
+u1 = 3*Y1-2*Y2   Omega (1)
+   lifting: 3*Y1-2*Y2-3
+RESULT: every generator lifts, so the generators form an SS-basis
+Generators, degrees, leading forms:
+  f1 = 2x   degree (1)   leading form: 2x
+  f2 = x2+x   degree (2)   leading form: x2
+Generators of ker(pi): 1
+u1 = Y1^2-4*Y2   Omega (2)
+   lifting: Y1^2-4*Y2+2*Y1
+RESULT: every generator lifts, so the generators form an SS-basis
+Generators, degrees, leading forms:
+  f1 = 2x   degree (1)   leading form: 2x
+  f2 = x2+1   degree (2)   leading form: x2
+Generators of ker(pi): 1
+u1 = Y1^2-4*Y2   Omega (2)
+   lifting: Y1^2-4*Y2+4
+RESULT: every generator lifts, so the generators form an SS-basis
+Generators, degrees, leading forms:
+  f1 = x2+x   degree (2)   leading form: x2
+  f2 = x3   degree (3)   leading form: x3
+Generators of ker(pi): 1
+u1 = Y1^3-Y2^2   Omega (6)
+   lifting: Y1^3-Y2^2-3*Y1*Y2-Y2
+RESULT: every generator lifts, so the generators form an SS-basis
+  Z[x], F = {2x, x2} (homogeneous generators, hence an SS-basis):
+Generators, degrees, leading forms:
+  f1 = 2x   degree (1)   leading form: 2x
+  f2 = x2   degree (2)   leading form: x2
+Generators of ker(pi): 1
+u1 = Y1^2-4*Y2   Omega (2)
+   lifting: Y1^2-4*Y2
+RESULT: every generator lifts, so the generators form an SS-basis
+===== R1: negative weight.  Expected: ERROR
+   ? W has a negative entry: only N^k-gradings (non-negative weights) are supported
+   ? leaving ../ssbasis.lib::ssCheckInput (0)
+   ? leaving ../ssbasis.lib::ssCore (238)
+   ? leaving ../ssbasis.lib::SSliftingTest (455)
+===== R2: all columns zero.  Expected: ERROR
+   ? every column of W is zero: there is no variable of positive degree
+   ? leaving ../ssbasis.lib::ssCheckInput (0)
+   ? leaving ../ssbasis.lib::ssCore (238)
+   ? leaving ../ssbasis.lib::SSliftingTest (455)
+===== R3: inhomogeneous quotient ideal.  Expected: ERROR
+   ? the quotient ideal is not homogeneous for the grading W
+   ? leaving ../ssbasis.lib::ssCheckInput (0)
+   ? leaving ../ssbasis.lib::ssCore (238)
+   ? leaving ../ssbasis.lib::SSliftingTest (455)
+===== R4: local ordering.  Expected: ERROR
+   ? the basering must have a global monomial ordering
+   ? leaving ../ssbasis.lib::ssCheckInput (0)
+   ? leaving ../ssbasis.lib::ssCore (238)
+   ? leaving ../ssbasis.lib::SSliftingTest (455)
+===== R5: generator zero in R.  Expected: ERROR
+   ? generator 2 is zero in R
+   ? leaving ../ssbasis.lib::ssCheckInput (0)
+   ? leaving ../ssbasis.lib::ssCore (238)
+   ? leaving ../ssbasis.lib::SSliftingTest (455)
+===== R6: variable name clash with Y1.  Expected: ERROR
+   ? the ring variable Y1 clashes with the auxiliary variables Y1,Y2,...; please rename it
+   ? leaving ../ssbasis.lib::ssCheckInput (0)
+   ? leaving ../ssbasis.lib::ssCore (238)
+   ? leaving ../ssbasis.lib::SSliftingTest (455)
+===== R7: W with wrong number of columns.  Expected: ERROR
+   ? W must have exactly one column per ring variable
+   ? leaving ../ssbasis.lib::ssCheckInput (0)
+   ? leaving ../ssbasis.lib::ssCore (238)
+   ? leaving ../ssbasis.lib::SSliftingTest (455)
+===== R8: floating-point coefficients.  Expected: ERROR
+   ? floating-point coefficients are not supported
+   ? leaving ../ssbasis.lib::ssCheckInput (0)
+   ? leaving ../ssbasis.lib::ssCore (238)
+   ? leaving ../ssbasis.lib::SSliftingTest (455)
+===== R9: no nonzero generators.  Expected: ERROR
+   ? no nonzero generators given
+   ? leaving ../ssbasis.lib::ssCheckInput (0)
+   ? leaving ../ssbasis.lib::ssCore (238)
+   ? leaving ../ssbasis.lib::SSliftingTest (455)
+===== P1: coefficient field with a parameter, Q(a)[x,y], F = {x+ay, xy}.  Expected: SS-basis, ker(pi) = 0
+Generators, degrees, leading forms:
+  f1 = x+(a)*y   degree (1)   leading form: x+(a)*y
+  f2 = xy   degree (2)   leading form: xy
+Generators of ker(pi): 0
+RESULT: every generator lifts, so the generators form an SS-basis

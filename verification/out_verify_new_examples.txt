@@ -1,0 +1,32 @@
+(A) R = K[x,y]/(x^2), natural grading, f = y + xy
+  [ OK ] char 0: f^n = y^n + n*x*y^n for 1 <= n <= 12
+  [ OK ] char 0: F = {f}: ker(pi) = <Y1^2> in all degrees <= 12
+  [ OK ] char 0: F = {f}: Y1^2 does not lift, so {f} is not an SS-basis
+  [ OK ] char 2: f^n = y^n + n*x*y^n for 1 <= n <= 12
+  [ OK ] char 2: F = {f}: ker(pi) = <Y1^2> in all degrees <= 12
+  [ OK ] char 2: F = {f}: Y1^2 does not lift, so {f} is not an SS-basis
+  [ OK ] char 3: f^n = y^n + n*x*y^n for 1 <= n <= 12
+  [ OK ] char 3: F = {f}: ker(pi) = <Y1^2> in all degrees <= 12
+  [ OK ] char 3: F = {f}: Y1^2 does not lift, so {f} is not an SS-basis
+  [ OK ] char 0: Y(h) is a multiple of x*y^N, deg h = N+1, for h of f-degree N <= 9
+  [ OK ] char 0: (x*y^a)(x*y^b) = 0 in R
+  [ OK ] char 2: claimed generators lie in ker(pi) and are homogeneous
+  [ OK ] char 2: they generate ker(pi) in all degrees <= 12
+  [ OK ] char 2: liftings Y1^2+Y2 are valid
+  [ OK ] char 3: claimed generators lie in ker(pi) and are homogeneous
+  [ OK ] char 3: they generate ker(pi) in all degrees <= 12
+  [ OK ] char 3: liftings Y1^2-Y2, Y1*Y2-Y3, Y2^2-Y1*Y3 are valid
+(B) S = Q[e]/(e^2), deg e = 0, deg x = 1, deg y = 2
+  [ OK ] Y(x+y) = y and Y(e*y) = e*y, both of degree 2
+  [ OK ] pi(e*Y1 - Y2) = 0
+  [ OK ] psi(e*Y1 - Y2) = e*x (degree 1)
+  [ OK ] psi(e*Y1 - Y2) = e*x has degree 1, below Omega = 2; deg Y_i = 2, so only alpha = 0 has smaller degree
+  [ OK ]   (e*x not in the Q-span of 1, e)
+  [ OK ] F = {x+y, e*y}: ker(pi) = <e*Y1 - Y2> in all degrees <= 10
+  [ OK ] e*x = e*f1 - f2 lies in A
+  [ OK ] F': ker(pi') = <e*Y1 - Y2, e*Y3, Y3^2> in all degrees <= 10
+  [ OK ] liftings e*Y1 - Y2 - Y3, e*Y3, Y3^2 lie in ker(psi')
+  [ OK ] e*x has degree 1 < 2 = Omega(e*Y1 - Y2); f3^2 = 0 while Omega(Y3^2) = 2
+  [ OK ] natural grading: x+y and e*y are homogeneous of degree 1
+
+ALL CHECKS PASSED

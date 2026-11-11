@@ -1,0 +1,109 @@
+// examples.sing -- every Singular session of the revised manuscript
+// (Examples 2.5, 4.2, 4.4-4.7, 4.9-4.12), using ssbasis.lib version 1.1.
+// Usage (from this folder):  Singular -q examples.sing
+// The expected output is examples_output.txt.
+LIB "../ssbasis.lib";
+
+"===== Example 4.2 (Z, N^2-grading (a+b, 2b+c), lex) =====";
+ring r41 = integer,(x,y,z),dp;
+ideal G = xz2+y+1, yz+z, xyz3+y2z, xz3+2yz+z, z+3;
+intmat W41[2][3] = 1,1,0, 0,2,1;
+SSliftingTest(G, W41);
+kill r41;
+
+"===== Example 4.4 (Q, natural grading) =====";
+ring r43 = 0,(x,y),dp;
+ideal G = x+y, xy, x2-x, x3-x;
+SSliftingTest(G, ssNatural());
+kill r43;
+
+"===== Example 4.5 (Q, natural grading) =====";
+ring r44 = 0,(x,y),dp;
+ideal G = x2+y, xy, y2, y3+y;
+SSliftingTest(G, ssNatural());
+"completion (Algorithm 1):";
+list L = SScomplete(G, ssNatural(), 10);
+"F' ="; L[1]; "passes:"; L[2]; "terminated:"; L[3];
+"Example 4.5: the set H u {y} found by Algorithm 1:";
+ideal H = x2+y, xy, y2, y3+y, y;
+SSliftingTest(H, ssNatural());
+kill r44;
+
+"===== Example 4.6 (Z/4, lex multigrading) =====";
+ring r46 = (integer,4),(x,y),dp;
+ideal G = xy3+y4, y3+2y, 2x+y3;
+SSliftingTest(G, ssLex());
+kill r46;
+
+"===== Example 4.7 (Z/4, natural grading) =====";
+ring r47 = (integer,4),(x,y),dp;
+ideal G = xy3+y4, y3+2y, 2x+y3;
+SSliftingTest(G, ssNatural());
+"completion (Algorithm 1):";
+list L = SScomplete(G, ssNatural(), 10);
+"F' ="; L[1]; "passes:"; L[2]; "terminated:"; L[3];
+SSliftingTest(L[1], ssNatural());
+kill r47;
+
+"===== Example 4.9 (Z/6, natural grading) =====";
+ring r49 = (integer,6),(x,y),dp;
+ideal G = x2+3y, xy+1, y2+3x, 3x+3y+1;
+SSliftingTest(G, ssNatural());
+kill r49;
+
+"===== Example 4.10 (Z/6, N^2-grading (a+c, b+c), lex) =====";
+ring r410 = (integer,6),(x,y,z),dp;
+ideal G = xy+z+x+1, xy+5z+5x, yz+xy, 2xy2+xy+z+x+1;
+intmat W410[2][3] = 1,0,1, 0,1,1;
+SSliftingTest(G, W410);
+kill r410;
+
+"===== Example 2.5 (Q, N^2-grading (a+2b, b+c), lex): 4 passes of Algorithm 1 =====";
+ring r24 = 0,(x,y,z),dp;
+ideal G = xy+yz, xy2z, xy3z2;
+intmat W24[2][3] = 1,2,0, 0,1,1;
+list L = SScomplete(G, W24, 4);
+"F' after 4 passes:"; L[1]; "terminated:"; L[3];
+"the same generators under the natural grading:";
+SSliftingTest(G, ssNatural());
+kill r24;
+
+
+
+"===== Example 4.12 (non-reduced algebra): Q[x,y]/(x^2), natural grading, F = {y+xy} =====";
+ring a0 = 0,(x,y),dp; qring q0 = std(ideal(x2));
+ideal G = y+xy;
+SSliftingTest(G, ssNatural());
+"Algorithm 1, at most 3 passes:";
+list L = SScomplete(G, ssNatural(), 3); L[1]; "terminated:"; L[3];
+kill q0; kill a0;
+
+"===== Example 4.12 in characteristic 2: F = {y+xy, y^2} and completion of {y+xy} =====";
+ring a2 = 2,(x,y),dp; qring q2 = std(ideal(x2));
+ideal G = y+xy, y2;
+SSliftingTest(G, ssNatural());
+ideal H = y+xy;
+list L = SScomplete(H, ssNatural(), 5); L[1]; "passes:"; L[2]; "terminated:"; L[3];
+kill q2; kill a2;
+
+"===== Example 4.12 in characteristic 3: F = {f, f^2, f^3} =====";
+ring a3 = 3,(x,y),dp; qring q3 = std(ideal(x2));
+poly f = y+xy;
+ideal G = f, reduce(f^2, std(0)), reduce(f^3, std(0));
+G;
+SSliftingTest(G, ssNatural());
+kill q3; kill a3;
+
+"===== Example 4.11 (dual numbers, weighted grading): S = Q[e]/(e^2), deg x = 1, deg y = 2 =====";
+ring d = 0,(e,x,y),dp; qring dq = std(ideal(e2));
+ideal G = x+y, ey;
+intmat Wd[1][3] = 0,1,2;
+SSliftingTest(G, Wd);
+"Algorithm 1:";
+list L = SScomplete(G, Wd, 5); L[1]; "passes:"; L[2]; "terminated:"; L[3];
+SSliftingTest(L[1], Wd);
+"the same generators under the natural grading (deg x = deg y = 1):";
+intmat Wn[1][3] = 0,1,1;
+SSliftingTest(G, Wn);
+kill dq; kill d;
+quit;

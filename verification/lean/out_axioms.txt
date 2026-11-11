@@ -1,0 +1,13 @@
+'SS.add_right_cancel' does not depend on any axioms
+'SS.lsum_lt_or_eq' does not depend on any axioms
+'SS.lsum_le_of_forall2' does not depend on any axioms
+'SS.not_lt_zero' does not depend on any axioms
+'SS.zero_le' does not depend on any axioms
+'SS.fdeg_lt' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SS.no_infinite_descent' does not depend on any axioms
+'SS.exists_minimal' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SS.descent_reaches' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Examples.lex_wf' does not depend on any axioms
+'Examples.ex24_degree_drop' depends on axioms: [propext, Quot.sound]
+'Examples.ex24_degrees' depends on axioms: [propext, Quot.sound]
+'Examples.ex46_formal_vs_actual' does not depend on any axioms

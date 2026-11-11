@@ -1,0 +1,250 @@
+===== Example 4.2 (Z, N^2-grading (a+b, 2b+c), lex) =====
+Generators, degrees, leading forms:
+  f1 = xz2+y+1   degree (1,2)   leading form: xz2+y
+  f2 = yz+z   degree (1,3)   leading form: yz
+  f3 = xyz3+y2z   degree (2,5)   leading form: xyz3+y2z
+  f4 = xz3+2yz+z   degree (1,3)   leading form: xz3+2yz
+  f5 = z+3   degree (0,1)   leading form: z
+Generators of ker(pi): 2
+u1 = Y1*Y5+Y2-Y4   Omega (1,3)
+   lifting: Y1*Y5+Y2-Y4-3*Y1-Y5+3
+u2 = Y1*Y2-Y3   Omega (2,5)
+   lifting: Y1*Y2-Y3-Y4
+RESULT: every generator lifts, so the generators form an SS-basis
+===== Example 4.4 (Q, natural grading) =====
+Generators, degrees, leading forms:
+  f1 = x+y   degree (1)   leading form: x+y
+  f2 = xy   degree (2)   leading form: xy
+  f3 = x2-x   degree (2)   leading form: x2
+  f4 = x3-x   degree (3)   leading form: x3
+Generators of ker(pi): 4
+u1 = Y2*Y3+Y3^2-Y1*Y4   Omega (4)
+   lifting: Y2*Y3+Y3^2-Y1*Y4+Y1*Y3+Y4-Y3
+u2 = Y1^2*Y3-Y2^2-2*Y2*Y3-Y3^2   Omega (4)
+   lifting: Y1^2*Y3-Y2^2-2*Y2*Y3-Y3^2+Y1*Y2-Y1*Y3-Y2
+u3 = Y1*Y3^2-Y2*Y4-Y3*Y4   Omega (5)
+   lifting: Y1*Y3^2-Y2*Y4-Y3*Y4-Y3^2+2*Y1*Y4-2*Y1*Y3-2*Y4+2*Y3
+u4 = Y3^3-Y4^2   Omega (6)
+   lifting: Y3^3-Y4^2+3*Y3*Y4-2*Y3^2
+RESULT: every generator lifts, so the generators form an SS-basis
+===== Example 4.5 (Q, natural grading) =====
+Generators, degrees, leading forms:
+  f1 = x2+y   degree (2)   leading form: x2
+  f2 = xy   degree (2)   leading form: xy
+  f3 = y2   degree (2)   leading form: y2
+  f4 = y3+y   degree (3)   leading form: y3
+Generators of ker(pi): 2
+u1 = Y2^2-Y1*Y3   Omega (4)
+   NO lifting; psi(u1) has the nonzero normal form y
+u2 = Y3^3-Y4^2   Omega (6)
+   lifting: Y3^3-Y4^2+2*Y3^2+Y3
+RESULT: NOT an SS-basis
+completion (Algorithm 1):
+F' =
+_[1]=x2+y
+_[2]=xy
+_[3]=y2
+_[4]=y3+y
+_[5]=y
+passes:
+2
+terminated:
+1
+Example 4.5: the set H u {y} found by Algorithm 1:
+Generators, degrees, leading forms:
+  f1 = x2+y   degree (2)   leading form: x2
+  f2 = xy   degree (2)   leading form: xy
+  f3 = y2   degree (2)   leading form: y2
+  f4 = y3+y   degree (3)   leading form: y3
+  f5 = y   degree (1)   leading form: y
+Generators of ker(pi): 3
+u1 = Y5^2-Y3   Omega (2)
+   lifting: Y5^2-Y3
+u2 = Y3*Y5-Y4   Omega (3)
+   lifting: Y3*Y5-Y4+Y5
+u3 = Y2^2-Y1*Y3   Omega (4)
+   lifting: Y2^2-Y1*Y3+Y4-Y5
+RESULT: every generator lifts, so the generators form an SS-basis
+===== Example 4.6 (Z/4, lex multigrading) =====
+Generators, degrees, leading forms:
+  f1 = xy3+y4   degree (1,3)   leading form: xy3
+  f2 = y3+2y   degree (0,3)   leading form: y3
+  f3 = y3+2x   degree (1,0)   leading form: 2x
+Generators of ker(pi): 3
+u1 = 2*Y3   Omega (1,0)
+   lifting: 2*Y3+2*Y2
+u2 = Y2*Y3+2*Y1   Omega (1,3)
+   lifting: Y2*Y3+2*Y1+3*Y2^2
+u3 = Y3^2   Omega (2,0)
+   lifting: Y3^2+3*Y2^2
+RESULT: every generator lifts, so the generators form an SS-basis
+===== Example 4.7 (Z/4, natural grading) =====
+Generators, degrees, leading forms:
+  f1 = xy3+y4   degree (4)   leading form: xy3+y4
+  f2 = y3+2y   degree (3)   leading form: y3
+  f3 = y3+2x   degree (3)   leading form: y3
+Generators of ker(pi): 1
+u1 = Y2+3*Y3   Omega (3)
+   NO lifting; psi(u1) has the nonzero normal form 2x+2y
+RESULT: NOT an SS-basis
+completion (Algorithm 1):
+F' =
+_[1]=xy3+y4
+_[2]=y3+2y
+_[3]=y3+2x
+_[4]=2x+2y
+passes:
+2
+terminated:
+1
+Generators, degrees, leading forms:
+  f1 = xy3+y4   degree (4)   leading form: xy3+y4
+  f2 = y3+2y   degree (3)   leading form: y3
+  f3 = y3+2x   degree (3)   leading form: y3
+  f4 = 2x+2y   degree (1)   leading form: 2x+2y
+Generators of ker(pi): 4
+u1 = 2*Y4   Omega (1)
+   lifting: 2*Y4
+u2 = Y4^2   Omega (2)
+   lifting: Y4^2
+u3 = Y2+3*Y3   Omega (3)
+   lifting: Y2+3*Y3+3*Y4
+u4 = Y3*Y4+2*Y1   Omega (4)
+   lifting: Y3*Y4+2*Y1
+RESULT: every generator lifts, so the generators form an SS-basis
+===== Example 4.9 (Z/6, natural grading) =====
+Generators, degrees, leading forms:
+  f1 = x2+3y   degree (2)   leading form: x2
+  f2 = xy+1   degree (2)   leading form: xy
+  f3 = y2+3x   degree (2)   leading form: y2
+  f4 = 3x+3y+1   degree (1)   leading form: 3x+3y
+Generators of ker(pi): 3
+u1 = 2*Y4   Omega (1)
+   lifting: 2*Y4+4
+u2 = Y4^2+3*Y1+3*Y3   Omega (2)
+   lifting: Y4^2+3*Y1+3*Y3+Y4+4
+u3 = Y2^2+5*Y1*Y3   Omega (4)
+   lifting: Y2^2+5*Y1*Y3+5*Y1*Y4+5*Y2*Y4+5*Y3*Y4+4*Y1+2*Y2+4*Y3+4
+RESULT: every generator lifts, so the generators form an SS-basis
+===== Example 4.10 (Z/6, N^2-grading (a+c, b+c), lex) =====
+Generators, degrees, leading forms:
+  f1 = xy+x+z+1   degree (1,1)   leading form: xy+z
+  f2 = xy+5x+5z   degree (1,1)   leading form: xy+5z
+  f3 = xy+yz   degree (1,2)   leading form: yz
+  f4 = 2xy2+xy+x+z+1   degree (1,2)   leading form: 2xy2
+Generators of ker(pi): 3
+u1 = 3*Y1+3*Y2   Omega (1,1)
+   lifting: 3*Y1+3*Y2+3
+u2 = 3*Y4   Omega (1,2)
+   lifting: 3*Y4+3*Y2+3
+u3 = Y1*Y3+Y2*Y3+Y1*Y4+5*Y2*Y4   Omega (2,3)
+   lifting: Y1*Y3+Y2*Y3+Y1*Y4+5*Y2*Y4+5*Y1^2+Y1*Y2+5*Y3+5*Y4+Y1
+RESULT: every generator lifts, so the generators form an SS-basis
+===== Example 2.5 (Q, N^2-grading (a+2b, b+c), lex): 4 passes of Algorithm 1 =====
+F' after 4 passes:
+_[1]=xy+yz
+_[2]=xy2z
+_[3]=xy3z2
+_[4]=-xy4z3
+_[5]=-xy5z4
+_[6]=xy6z5
+_[7]=xy7z6
+terminated:
+0
+the same generators under the natural grading:
+Generators, degrees, leading forms:
+  f1 = xy+yz   degree (2)   leading form: xy+yz
+  f2 = xy2z   degree (4)   leading form: xy2z
+  f3 = xy3z2   degree (6)   leading form: xy3z2
+Generators of ker(pi): 1
+u1 = Y2^3-Y1*Y2*Y3+Y3^2   Omega (12)
+   lifting: Y2^3-Y1*Y2*Y3+Y3^2
+RESULT: every generator lifts, so the generators form an SS-basis
+===== Example 4.12 (non-reduced algebra): Q[x,y]/(x^2), natural grading, F = {y+xy} =====
+Generators, degrees, leading forms:
+  f1 = xy+y   degree (2)   leading form: xy
+Generators of ker(pi): 1
+u1 = Y1^2   Omega (4)
+   NO lifting; psi(u1) has the nonzero normal form 2xy2+y2
+RESULT: NOT an SS-basis
+Algorithm 1, at most 3 passes:
+_[1]=xy+y
+_[2]=2xy2+y2
+_[3]=3xy3+y3
+_[4]=4xy4+y4
+_[5]=5xy5+y5
+_[6]=-5xy5-y5
+_[7]=6xy6+y6
+_[8]=-6xy6-y6
+_[9]=7xy7+y7
+_[10]=8xy8+y8
+terminated:
+0
+===== Example 4.12 in characteristic 2: F = {y+xy, y^2} and completion of {y+xy} =====
+Generators, degrees, leading forms:
+  f1 = xy+y   degree (2)   leading form: xy
+  f2 = y2   degree (2)   leading form: y2
+Generators of ker(pi): 1
+u1 = Y1^2   Omega (4)
+   lifting: Y1^2+Y2
+RESULT: every generator lifts, so the generators form an SS-basis
+_[1]=xy+y
+_[2]=y2
+passes:
+2
+terminated:
+1
+===== Example 4.12 in characteristic 3: F = {f, f^2, f^3} =====
+G[1]=xy+y
+G[2]=-xy2+y2
+G[3]=y3
+Generators, degrees, leading forms:
+  f1 = xy+y   degree (2)   leading form: xy
+  f2 = -xy2+y2   degree (3)   leading form: -xy2
+  f3 = y3   degree (3)   leading form: y3
+Generators of ker(pi): 3
+u1 = Y1^2   Omega (4)
+   lifting: Y1^2-Y2
+u2 = Y1*Y2   Omega (5)
+   lifting: Y1*Y2-Y3
+u3 = Y2^2   Omega (6)
+   lifting: Y2^2-Y1*Y3
+RESULT: every generator lifts, so the generators form an SS-basis
+===== Example 4.11 (dual numbers, weighted grading): S = Q[e]/(e^2), deg x = 1, deg y = 2 =====
+Generators, degrees, leading forms:
+  f1 = x+y   degree (2)   leading form: y
+  f2 = ey   degree (2)   leading form: ey
+Generators of ker(pi): 1
+u1 = e*Y1-Y2   Omega (2)
+   NO lifting; psi(u1) has the nonzero normal form ex
+RESULT: NOT an SS-basis
+Algorithm 1:
+_[1]=x+y
+_[2]=ey
+_[3]=ex
+passes:
+2
+terminated:
+1
+Generators, degrees, leading forms:
+  f1 = x+y   degree (2)   leading form: y
+  f2 = ey   degree (2)   leading form: ey
+  f3 = ex   degree (1)   leading form: ex
+Generators of ker(pi): 3
+u1 = e*Y3   Omega (1)
+   lifting: e*Y3
+u2 = Y3^2   Omega (2)
+   lifting: Y3^2
+u3 = e*Y1-Y2   Omega (2)
+   lifting: e*Y1-Y2-Y3
+RESULT: every generator lifts, so the generators form an SS-basis
+the same generators under the natural grading (deg x = deg y = 1):
+Generators, degrees, leading forms:
+  f1 = x+y   degree (1)   leading form: x+y
+  f2 = ey   degree (1)   leading form: ey
+Generators of ker(pi): 2
+u1 = e*Y2   Omega (1)
+   lifting: e*Y2
+u2 = Y2^2   Omega (2)
+   lifting: Y2^2
+RESULT: every generator lifts, so the generators form an SS-basis

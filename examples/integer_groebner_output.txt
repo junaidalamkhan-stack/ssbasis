@@ -1,0 +1,15 @@
+===== Example 4.4: h = x+y, xy, x2-x, x3-x; leading forms x+y, xy, x2, x3 =====
+all leading coefficients +1 or -1:
+1
+x,y-free elements generate <c1,c2,c3,c4> over Z:
+1
+===== Example 4.5: leading forms x2, xy, y2, y3 =====
+all leading coefficients +1 or -1:
+1
+x,y-free elements generate <c1,c2> over Z:
+1
+===== Example 4.5 after completion: h5 = y, leading forms x2, xy, y2, y3, y =====
+all leading coefficients +1 or -1:
+1
+x,y-free elements generate <Y3-Y5^2, Y4-Y3*Y5, Y2^2-Y1*Y3> over Z:
+1

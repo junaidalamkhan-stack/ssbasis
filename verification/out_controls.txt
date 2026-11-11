@@ -1,0 +1,11 @@
+  [control behaves as expected] Ex 4.6 without 2*Y3 is detected as NOT generating ker(pi) (first gap at (1, 0))
+  [control behaves as expected] Ex 4.6 without Y3^2 is detected (first gap at (2, 0))
+  [control behaves as expected] Ex 4.3 without Y3^3-Y4^2 is detected (first gap at (6,))
+  [control behaves as expected] Ex 4.9 without 2*Y4 is detected (first gap at (1,))
+  [control behaves as expected] Ex 4.9 with 4*Y4 in place of 2*Y4 still passes (same ideal)
+  [control behaves as expected] liftable() says Y3^3-Y4^2 lifts in Ex 4.4
+  [control behaves as expected] liftable() says Y2^2-Y1*Y3 does not lift in Ex 4.4
+  [control behaves as expected] liftable() over Z/4 says Y2+3*Y3 lifts after completion of Ex 4.7
+  [control behaves as expected] a perturbed lifting (constant 2 instead of 3) is rejected in Ex 4.1
+
+ALL CONTROLS BEHAVE AS EXPECTED

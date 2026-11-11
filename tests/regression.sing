@@ -1,0 +1,124 @@
+// regression.sing -- input classes beyond the manuscript examples, including
+// the cases on which version 1.0 failed.  Each block states the expected
+// outcome.  Errors are expected in R1-R9; Singular reports them and continues.
+LIB "../ssbasis.lib";
+
+"===== Q1: Q[x,y]/(x^2), F = {y+xy}.  Expected: NOT an SS-basis (v1.0 said SS-basis)";
+ring q1r = 0,(x,y),dp; qring q1 = std(ideal(x2));
+ideal G = y+xy;
+SSliftingTest(G, ssNatural());
+"  Algorithm 1, 3 passes (expected: does not terminate; adjoins 2xy2+y2, ...):";
+list L = SScomplete(G, ssNatural(), 3); L[1]; "  terminated:"; L[3];
+kill q1; kill q1r;
+
+"===== Q2: F_2[x,y]/(x^2), F = {y+xy, y^2}.  Expected: SS-basis, lifting Y1^2-Y2 (v1.0 printed Y1^2)";
+ring q2r = 2,(x,y),dp; qring q2 = std(ideal(x2));
+ideal G = y+xy, y2;
+SSliftingTest(G, ssNatural());
+kill q2; kill q2r;
+
+"===== Q3: F_2[x,y]/(x^2), F = {y+xy}: completion.  Expected: terminates, adjoining y2";
+ring q3r = 2,(x,y),dp; qring q3 = std(ideal(x2));
+ideal G = y+xy;
+list L = SScomplete(G, ssNatural(), 5); L[1]; "  passes:"; L[2]; "  terminated:"; L[3];
+kill q3; kill q3r;
+
+"===== Q4: F_3[x,y]/(x^2), F = {y+xy}: completion.  Expected: terminates; leading forms xy, 2xy2, y3";
+ring q4r = 3,(x,y),dp; qring q4 = std(ideal(x2));
+ideal G = y+xy;
+list L = SScomplete(G, ssNatural(), 5); L[1]; "  passes:"; L[2]; "  terminated:"; L[3];
+SSliftingTest(L[1], ssNatural());
+kill q4; kill q4r;
+
+"===== Q5: Z/4[x,y]/(xy), F = {x+y, 2x}.  quotient ring over Z/4";
+ring q5r = (integer,4),(x,y),dp; qring q5 = std(ideal(xy));
+ideal G = x+y, 2x;
+SSliftingTest(G, ssNatural());
+kill q5; kill q5r;
+
+"===== Z1: degree-0 variable: Q[x,y], W = (1,0), so S = Q[y]; F = {x, xy+1}.  Expected: SS-basis, lifting Y2-y*Y1-1";
+ring z1 = 0,(x,y),dp;
+ideal G = x, xy+1;
+intmat W[1][2] = 1,0;
+SSliftingTest(G, W);
+kill z1;
+
+"===== Z2: constants allowed: Z/4, F = {2, x+y, 2x}";
+ring z2 = (integer,4),(x,y),dp;
+ideal G = 2, x+y, 2x;
+SSliftingTest(G, ssNatural());
+kill z2;
+
+"===== Z3-Z7: over Z";
+ring z3 = integer,(x),dp;
+ideal G3 = 2x+1, 3x; SSliftingTest(G3, ssNatural());
+ideal G4 = 2x, x2+x; SSliftingTest(G4, ssNatural());
+ideal G5 = 2x, x2+1; SSliftingTest(G5, ssNatural());
+ideal G6 = x2+x, x3; SSliftingTest(G6, ssNatural());
+"  Z[x], F = {2x, x2} (homogeneous generators, hence an SS-basis):";
+ideal G7 = 2x, x2; SSliftingTest(G7, ssNatural());
+kill z3;
+
+"===== R1: negative weight.  Expected: ERROR";
+ring e1 = 0,(x,y),dp;
+ideal G = x+y, xy;
+intmat Wn[1][2] = 1,-1;
+SSliftingTest(G, Wn);
+kill e1;
+
+"===== R2: all columns zero.  Expected: ERROR";
+ring e2 = 0,(x,y),dp;
+ideal G = x+y;
+intmat W0[1][2] = 0,0;
+SSliftingTest(G, W0);
+kill e2;
+
+"===== R3: inhomogeneous quotient ideal.  Expected: ERROR";
+ring e3r = 0,(x,y),dp; qring e3 = std(ideal(x2-y));
+ideal G = x+y;
+SSliftingTest(G, ssNatural());
+kill e3; kill e3r;
+
+"===== R4: local ordering.  Expected: ERROR";
+ring e4 = 0,(x,y),ds;
+ideal G = x+y, xy;
+SSliftingTest(G, ssNatural());
+kill e4;
+
+"===== R5: generator zero in R.  Expected: ERROR";
+ring e5r = 0,(x,y),dp; qring e5 = std(ideal(x2));
+ideal G = y, x2;
+SSliftingTest(G, ssNatural());
+kill e5; kill e5r;
+
+"===== R6: variable name clash with Y1.  Expected: ERROR";
+ring e6 = 0,(x,Y1),dp;
+ideal G = x+Y1;
+SSliftingTest(G, ssNatural());
+kill e6;
+
+"===== R7: W with wrong number of columns.  Expected: ERROR";
+ring e7 = 0,(x,y,z),dp;
+ideal G = x+y;
+intmat W2[1][2] = 1,1;
+SSliftingTest(G, W2);
+kill e7;
+
+"===== R8: floating-point coefficients.  Expected: ERROR";
+ring e8 = real,(x,y),dp;
+ideal G = x+y, xy;
+SSliftingTest(G, ssNatural());
+kill e8;
+
+"===== R9: no nonzero generators.  Expected: ERROR";
+ring e9 = 0,(x,y),dp;
+ideal G = 0;
+SSliftingTest(G, ssNatural());
+kill e9;
+
+"===== P1: coefficient field with a parameter, Q(a)[x,y], F = {x+ay, xy}.  Expected: SS-basis, ker(pi) = 0";
+ring p1 = (0,a),(x,y),dp;
+ideal G = x+a*y, xy;
+SSliftingTest(G, ssNatural());
+kill p1;
+quit;
