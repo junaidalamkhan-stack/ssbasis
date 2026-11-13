@@ -22,6 +22,6 @@ if command -v python3 > /dev/null; then
     echo "[....] verification/$s: $last"
     case "$last" in *FAIL*|*mismatches\ [1-9]*) status=1 ;; esac
   done
-  echo "(randomised check, several minutes: python3 verification/crosscheck_v11.py 300 11)"
+  echo "(randomised check: python3 verification/crosscheck_v11.py 300 11 [1])"
 fi
 exit $status

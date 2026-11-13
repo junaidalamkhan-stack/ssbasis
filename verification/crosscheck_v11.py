@@ -1,18 +1,24 @@
 """
-crosscheck_v11.py -- randomised comparison of the corrected library
-ssbasis.lib (v1.1) with the independent checker sslib.py.
+crosscheck_v11.py -- randomised comparison of the library ssbasis.lib
+(versions 1.1 and 1.2) with the independent checker sslib.py.
 
 Rings: S[x,y] and S[x,y]/(m) for a monomial m in {x^2, xy, y^3},
 S in {Q, F_3, Z/4, Z/6}; gradings: natural, or deg x = 1, deg y = 2.
 For each case and each printed generator u of ker(pi):
   * u is Omega-homogeneous and pi(u) = 0 in R;
   * a printed lifting l satisfies psi(l) = 0 in R and Omega-LF(l) = u;
-  * the verdict (lifting / no lifting) agrees with an exhaustive
-    linear-algebra test;
-  * for "NO lifting", the printed normal form w is nonzero in R and its
-    leading form is NOT in S[LF(F)] (so it is not s-reducible);
+  * in the lifting test (EXACT = 1), the verdict (lifting / no lifting)
+    agrees with an exhaustive linear-algebra test;
+  * for a printed normal form w ("NO lifting" in the lifting test, or
+    "psi(u) has the nonzero normal form" in the reduction test), w is
+    nonzero in R and its leading form is NOT in S[LF(F)] (so it is not
+    s-reducible);
+  * the overall verdict (SS-basis or not) agrees with the exhaustive test:
+    an SS-basis iff every u lifts (Theorem 3.3, Corollary 3.5);
 and the printed u's generate ker(pi) in all degrees <= 8.
-Usage: python3 crosscheck_v11.py NCASES SEED
+Usage: python3 crosscheck_v11.py NCASES SEED [EXACT]
+  EXACT = 0 (default): reduction test, SSliftingTest(G, W)
+  EXACT = 1: lifting test of Lemma 4.1(a), SSliftingTest(G, W, 1)
 """
 import random, subprocess, sys, os, re, tempfile
 TLIM = 20
@@ -45,6 +51,7 @@ def lf_in_subalgebra(target, LF, D, mod, kill):
 
 def main():
     n = int(sys.argv[1]); seed = int(sys.argv[2])
+    exact = int(sys.argv[3]) if len(sys.argv) > 3 else 0
     rng = random.Random(seed)
     cases = []
     while len(cases) < n:
@@ -69,7 +76,7 @@ def main():
             lines.append('qring qq = std(ideal(%s));' % QSING[q])
         lines.append('ideal G = %s;' % ', '.join(fmt(f, XN) for f in F))
         lines.append('intmat W[1][2] = %d,%d;' % tuple(W[0]))
-        lines.append('SSliftingTest(G, W);')
+        lines.append('SSliftingTest(G, W, 1);' if exact else 'SSliftingTest(G, W);')
         if q != 'none':
             lines.append('kill qq;')
         lines.append('kill r;')
@@ -83,7 +90,7 @@ def main():
         os.unlink(path)
     blocks = {int(b.split('\n', 1)[0]): b for b in out.split('@@CASE ')[1:]}
     st = dict(cases=0, quotient_cases=0, us=0, lifts=0, nolifts=0, mismatch=0, bad_lift=0,
-              nonhom=0, bad_nf=0, gen_fail=0, errors=0)
+              nonhom=0, bad_nf=0, bad_verdict=0, gen_fail=0, errors=0)
     probs = []
     st['timeouts'] = len(timeouts)
     for i, (mod, q, W, F) in enumerate(cases):
@@ -98,7 +105,7 @@ def main():
         m = len(F); yn = ['Y%d' % (j + 1) for j in range(m)]
         LF = [lead_form(f, W) for f in F]; D = [deg(f, W) for f in F]
         # parse
-        L = blk.split('\n'); U = []
+        L = blk.split('\n'); U = []; all_lift = True
         for k, ln in enumerate(L):
             mt = re.match(r'^u\d+ = (.*?)\s+Omega', ln)
             if not mt: continue
@@ -106,6 +113,7 @@ def main():
             if subst(u, LF, mod, 2, kill) != {} or not is_homog(u, D):
                 st['nonhom'] += 1; probs.append((i, 'u not homogeneous in ker pi', mt.group(1)))
             indep, _ = liftable(u, F, D, mod, 2, kill)
+            all_lift = all_lift and bool(indep)
             nxt = L[k + 1].strip()
             if nxt.startswith('lifting:'):
                 st['lifts'] += 1
@@ -114,9 +122,9 @@ def main():
                     st['bad_lift'] += 1; probs.append((i, 'bad lifting', nxt))
                 if not indep:
                     st['mismatch'] += 1; probs.append((i, 'lifts per Singular, not per checker', mt.group(1)))
-            elif nxt.startswith('NO lifting'):
+            elif 'normal form' in nxt:
                 st['nolifts'] += 1
-                if indep:
+                if nxt.startswith('NO lifting') and indep:
                     st['mismatch'] += 1; probs.append((i, 'no lifting per Singular, lifts per checker', mt.group(1)))
                 w = clean(parse(nxt.split('normal form', 1)[1].strip(), XN), mod)
                 w = quotient_reduce(w, mod, kill)
@@ -135,11 +143,14 @@ def main():
                         ok = False
                 if not ok:
                     st['bad_nf'] += 1; probs.append((i, 'normal form is s-reducible or zero', nxt))
+        verdict = 'every generator lifts' in blk
+        if verdict != all_lift:
+            st['bad_verdict'] += 1; probs.append((i, 'verdict differs from the exhaustive test', verdict))
         for gdeg in range(1, 9):
             okg, a, b = kernel_generated_in_degree(U, LF, D, mod, 2, (gdeg,), kill)
             if not okg:
                 st['gen_fail'] += 1; probs.append((i, 'ker pi not generated in degree %d' % gdeg, (a, b))); break
-    print('seed', seed, st)
+    print('seed', seed, 'exact' if exact else 'reduction', st)
     for p in probs[:10]:
         print('PROBLEM', p, 'over', 'Q' if cases[p[0]][0]==0 else 'Z/%d' % cases[p[0]][0], 'quotient', cases[p[0]][1], 'W', cases[p[0]][2], 'F', [fmt(f, XN) for f in cases[p[0]][3]])
 

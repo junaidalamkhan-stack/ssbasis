@@ -1,5 +1,27 @@
 # Changes
 
+## Version 1.2 (November 2026)
+
+**New default: the reduction test**
+
+* `SSliftingTest(G,W)` and `SSliftingData(G,W)` now use the reduction test of Corollary 3.5. For every homogeneous generator u of ker π, ψ(u) is S-reduced; F is an SS-basis iff every ψ(u) reduces to 0. A reduction ending at 0 gives the printed lifting; otherwise the nonzero normal form reached is printed (without the words "NO lifting"). Only ker π is computed, which avoids the elimination for ker ψ: a random case over ℤ₆[x,y]/(y³) that took more than 20 s now takes about 0.01 s.
+* The lifting test of version 1.1 (Lemma 4.1(a)) is still available with an optional third argument: `SSliftingTest(G,W,1)`, `SSliftingData(G,W,1)`. With it the library reproduces the stored outputs of version 1.1 exactly. Both tests give the same verdict.
+* `SScomplete` uses the reduction test.
+
+**Corrected**
+
+* In a `qring` over ℤ whose ideal contains a constant (coefficients effectively ℤ/m), Singular 4.3.2 can leave terms with coefficient 0 after a multiplication; such a term could be taken for a leading term. They are now removed (`ssClean`).
+
+**Input validation**
+
+* Non-commutative baserings and ring parameters named `Y1`, `Y2`, … now raise an ERROR.
+
+**Supplementary material**
+
+* `examples/examples_output.txt` and `tests/regression_output.txt` regenerated with Singular 4.3.2. All verdicts are unchanged. Differences from version 1.1: the reduction test prints "psi(u) has the nonzero normal form …" instead of "NO lifting; …"; two liftings differ (Example 4.2(ii) of the paper now prints Y2+3Y3+Y4, the lifting given in the paper, and Example 4.3 prints another valid lifting); line numbers in ERROR traces moved.
+* `verification/check_session_outputs.py` checks every lifting and normal form in the new outputs (all checks pass).
+* `verification/crosscheck_v11.py` takes an optional third argument (0 = reduction test, 1 = lifting test), recognizes the output of the reduction test, and also compares the overall verdict with the exhaustive test. 1200 random cases in each mode: no mismatches (`out_crosscheck_v11.txt`).
+
 ## Version 1.1 (revision of October 2026)
 
 **Corrected**

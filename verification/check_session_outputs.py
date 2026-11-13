@@ -1,11 +1,11 @@
 """
 check_session_outputs.py -- independently checks every kernel generator,
-lifting and normal form printed by ssbasis.lib v1.1 in
+lifting and normal form printed by ssbasis.lib (v1.1 or v1.2) in
   ../examples/examples_output.txt   (every session of the revised manuscript)
   ../tests/regression_output.txt    (quotient rings, Z, Z/4, degree-0 variable)
 For each SSliftingTest block: leading forms recomputed; each u is homogeneous
 and in ker(pi); each lifting l is in ker(psi) with Omega-LF(l) = u; each
-'NO lifting' verdict agrees with the exhaustive test and the printed normal
+'NO lifting' verdict (lifting test) agrees with the exhaustive test and the printed normal
 form w is nonzero with leading form outside S[LF(F)]; the printed u's
 generate ker(pi) in all degrees up to a bound.
 Blocks whose ring has a degree-0 variable (Example 4.11, test Z1) are

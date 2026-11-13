@@ -3,7 +3,7 @@ Generators, degrees, leading forms:
   f1 = xy+y   degree (2)   leading form: xy
 Generators of ker(pi): 1
 u1 = Y1^2   Omega (4)
-   NO lifting; psi(u1) has the nonzero normal form 2xy2+y2
+   psi(u1) has the nonzero normal form 2xy2+y2
 RESULT: NOT an SS-basis
   Algorithm 1, 3 passes (expected: does not terminate; adjoins 2xy2+y2, ...):
 _[1]=xy+y
@@ -128,48 +128,48 @@ RESULT: every generator lifts, so the generators form an SS-basis
 ===== R1: negative weight.  Expected: ERROR
    ? W has a negative entry: only N^k-gradings (non-negative weights) are supported
    ? leaving ../ssbasis.lib::ssCheckInput (0)
-   ? leaving ../ssbasis.lib::ssCore (238)
-   ? leaving ../ssbasis.lib::SSliftingTest (455)
+   ? leaving ../ssbasis.lib::ssCore (293)
+   ? leaving ../ssbasis.lib::SSliftingTest (550)
 ===== R2: all columns zero.  Expected: ERROR
    ? every column of W is zero: there is no variable of positive degree
    ? leaving ../ssbasis.lib::ssCheckInput (0)
-   ? leaving ../ssbasis.lib::ssCore (238)
-   ? leaving ../ssbasis.lib::SSliftingTest (455)
+   ? leaving ../ssbasis.lib::ssCore (293)
+   ? leaving ../ssbasis.lib::SSliftingTest (550)
 ===== R3: inhomogeneous quotient ideal.  Expected: ERROR
    ? the quotient ideal is not homogeneous for the grading W
    ? leaving ../ssbasis.lib::ssCheckInput (0)
-   ? leaving ../ssbasis.lib::ssCore (238)
-   ? leaving ../ssbasis.lib::SSliftingTest (455)
+   ? leaving ../ssbasis.lib::ssCore (293)
+   ? leaving ../ssbasis.lib::SSliftingTest (550)
 ===== R4: local ordering.  Expected: ERROR
    ? the basering must have a global monomial ordering
    ? leaving ../ssbasis.lib::ssCheckInput (0)
-   ? leaving ../ssbasis.lib::ssCore (238)
-   ? leaving ../ssbasis.lib::SSliftingTest (455)
+   ? leaving ../ssbasis.lib::ssCore (293)
+   ? leaving ../ssbasis.lib::SSliftingTest (550)
 ===== R5: generator zero in R.  Expected: ERROR
    ? generator 2 is zero in R
    ? leaving ../ssbasis.lib::ssCheckInput (0)
-   ? leaving ../ssbasis.lib::ssCore (238)
-   ? leaving ../ssbasis.lib::SSliftingTest (455)
+   ? leaving ../ssbasis.lib::ssCore (293)
+   ? leaving ../ssbasis.lib::SSliftingTest (550)
 ===== R6: variable name clash with Y1.  Expected: ERROR
    ? the ring variable Y1 clashes with the auxiliary variables Y1,Y2,...; please rename it
    ? leaving ../ssbasis.lib::ssCheckInput (0)
-   ? leaving ../ssbasis.lib::ssCore (238)
-   ? leaving ../ssbasis.lib::SSliftingTest (455)
+   ? leaving ../ssbasis.lib::ssCore (293)
+   ? leaving ../ssbasis.lib::SSliftingTest (550)
 ===== R7: W with wrong number of columns.  Expected: ERROR
    ? W must have exactly one column per ring variable
    ? leaving ../ssbasis.lib::ssCheckInput (0)
-   ? leaving ../ssbasis.lib::ssCore (238)
-   ? leaving ../ssbasis.lib::SSliftingTest (455)
+   ? leaving ../ssbasis.lib::ssCore (293)
+   ? leaving ../ssbasis.lib::SSliftingTest (550)
 ===== R8: floating-point coefficients.  Expected: ERROR
    ? floating-point coefficients are not supported
    ? leaving ../ssbasis.lib::ssCheckInput (0)
-   ? leaving ../ssbasis.lib::ssCore (238)
-   ? leaving ../ssbasis.lib::SSliftingTest (455)
+   ? leaving ../ssbasis.lib::ssCore (293)
+   ? leaving ../ssbasis.lib::SSliftingTest (550)
 ===== R9: no nonzero generators.  Expected: ERROR
    ? no nonzero generators given
    ? leaving ../ssbasis.lib::ssCheckInput (0)
-   ? leaving ../ssbasis.lib::ssCore (238)
-   ? leaving ../ssbasis.lib::SSliftingTest (455)
+   ? leaving ../ssbasis.lib::ssCore (293)
+   ? leaving ../ssbasis.lib::SSliftingTest (550)
 ===== P1: coefficient field with a parameter, Q(a)[x,y], F = {x+ay, xy}.  Expected: SS-basis, ker(pi) = 0
 Generators, degrees, leading forms:
   f1 = x+(a)*y   degree (1)   leading form: x+(a)*y

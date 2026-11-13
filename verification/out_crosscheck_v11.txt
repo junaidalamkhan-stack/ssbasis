@@ -1,5 +1,9 @@
-seed 11 {'cases': 299, 'quotient_cases': 226, 'us': 415, 'lifts': 305, 'nolifts': 110, 'mismatch': 0, 'bad_lift': 0, 'nonhom': 0, 'bad_nf': 0, 'gen_fail': 0, 'errors': 0, 'timeouts': 1}
+seed 11 reduction {'cases': 300, 'quotient_cases': 227, 'us': 419, 'lifts': 301, 'nolifts': 118, 'mismatch': 0, 'bad_lift': 0, 'nonhom': 0, 'bad_nf': 0, 'bad_verdict': 0, 'gen_fail': 0, 'errors': 0, 'timeouts': 0}
+seed 22 reduction {'cases': 300, 'quotient_cases': 211, 'us': 437, 'lifts': 279, 'nolifts': 158, 'mismatch': 0, 'bad_lift': 0, 'nonhom': 0, 'bad_nf': 0, 'bad_verdict': 0, 'gen_fail': 0, 'errors': 0, 'timeouts': 0}
+seed 33 reduction {'cases': 300, 'quotient_cases': 216, 'us': 391, 'lifts': 253, 'nolifts': 138, 'mismatch': 0, 'bad_lift': 0, 'nonhom': 0, 'bad_nf': 0, 'bad_verdict': 0, 'gen_fail': 0, 'errors': 0, 'timeouts': 0}
+seed 44 reduction {'cases': 300, 'quotient_cases': 222, 'us': 428, 'lifts': 306, 'nolifts': 122, 'mismatch': 0, 'bad_lift': 0, 'nonhom': 0, 'bad_nf': 0, 'bad_verdict': 0, 'gen_fail': 0, 'errors': 0, 'timeouts': 0}
+seed 11 exact {'cases': 299, 'quotient_cases': 226, 'us': 415, 'lifts': 305, 'nolifts': 110, 'mismatch': 0, 'bad_lift': 0, 'nonhom': 0, 'bad_nf': 0, 'bad_verdict': 0, 'gen_fail': 0, 'errors': 0, 'timeouts': 1}
 PROBLEM (261, 'timeout (20 s)', '') over Z/6 quotient y3 W [[1, 1]] F ['2*x^3+x*y^2', 'x^3+x^2*y+5*y', '4*x^3+5*x*y+5*x']
-seed 22 {'cases': 300, 'quotient_cases': 211, 'us': 437, 'lifts': 281, 'nolifts': 156, 'mismatch': 0, 'bad_lift': 0, 'nonhom': 0, 'bad_nf': 0, 'gen_fail': 0, 'errors': 0, 'timeouts': 0}
-seed 33 {'cases': 300, 'quotient_cases': 216, 'us': 391, 'lifts': 257, 'nolifts': 134, 'mismatch': 0, 'bad_lift': 0, 'nonhom': 0, 'bad_nf': 0, 'gen_fail': 0, 'errors': 0, 'timeouts': 0}
-seed 44 {'cases': 300, 'quotient_cases': 222, 'us': 428, 'lifts': 307, 'nolifts': 121, 'mismatch': 0, 'bad_lift': 0, 'nonhom': 0, 'bad_nf': 0, 'gen_fail': 0, 'errors': 0, 'timeouts': 0}
+seed 22 exact {'cases': 300, 'quotient_cases': 211, 'us': 437, 'lifts': 281, 'nolifts': 156, 'mismatch': 0, 'bad_lift': 0, 'nonhom': 0, 'bad_nf': 0, 'bad_verdict': 0, 'gen_fail': 0, 'errors': 0, 'timeouts': 0}
+seed 33 exact {'cases': 300, 'quotient_cases': 216, 'us': 391, 'lifts': 257, 'nolifts': 134, 'mismatch': 0, 'bad_lift': 0, 'nonhom': 0, 'bad_nf': 0, 'bad_verdict': 0, 'gen_fail': 0, 'errors': 0, 'timeouts': 0}
+seed 44 exact {'cases': 300, 'quotient_cases': 222, 'us': 428, 'lifts': 307, 'nolifts': 121, 'mismatch': 0, 'bad_lift': 0, 'nonhom': 0, 'bad_nf': 0, 'bad_verdict': 0, 'gen_fail': 0, 'errors': 0, 'timeouts': 0}

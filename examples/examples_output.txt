@@ -35,7 +35,7 @@ Generators, degrees, leading forms:
   f4 = y3+y   degree (3)   leading form: y3
 Generators of ker(pi): 2
 u1 = Y2^2-Y1*Y3   Omega (4)
-   NO lifting; psi(u1) has the nonzero normal form y
+   psi(u1) has the nonzero normal form y
 u2 = Y3^3-Y4^2   Omega (6)
    lifting: Y3^3-Y4^2+2*Y3^2+Y3
 RESULT: NOT an SS-basis
@@ -85,7 +85,7 @@ Generators, degrees, leading forms:
   f3 = y3+2x   degree (3)   leading form: y3
 Generators of ker(pi): 1
 u1 = Y2+3*Y3   Omega (3)
-   NO lifting; psi(u1) has the nonzero normal form 2x+2y
+   psi(u1) has the nonzero normal form 2x+2y
 RESULT: NOT an SS-basis
 completion (Algorithm 1):
 F' =
@@ -108,7 +108,7 @@ u1 = 2*Y4   Omega (1)
 u2 = Y4^2   Omega (2)
    lifting: Y4^2
 u3 = Y2+3*Y3   Omega (3)
-   lifting: Y2+3*Y3+3*Y4
+   lifting: Y2+3*Y3+Y4
 u4 = Y3*Y4+2*Y1   Omega (4)
    lifting: Y3*Y4+2*Y1
 RESULT: every generator lifts, so the generators form an SS-basis
@@ -124,7 +124,7 @@ u1 = 2*Y4   Omega (1)
 u2 = Y4^2+3*Y1+3*Y3   Omega (2)
    lifting: Y4^2+3*Y1+3*Y3+Y4+4
 u3 = Y2^2+5*Y1*Y3   Omega (4)
-   lifting: Y2^2+5*Y1*Y3+5*Y1*Y4+5*Y2*Y4+5*Y3*Y4+4*Y1+2*Y2+4*Y3+4
+   lifting: Y2^2+5*Y1*Y3+Y1*Y4+3*Y2*Y4+5*Y3*Y4+2*Y1+4*Y2+4*Y3+4
 RESULT: every generator lifts, so the generators form an SS-basis
 ===== Example 4.10 (Z/6, N^2-grading (a+c, b+c), lex) =====
 Generators, degrees, leading forms:
@@ -165,7 +165,7 @@ Generators, degrees, leading forms:
   f1 = xy+y   degree (2)   leading form: xy
 Generators of ker(pi): 1
 u1 = Y1^2   Omega (4)
-   NO lifting; psi(u1) has the nonzero normal form 2xy2+y2
+   psi(u1) has the nonzero normal form 2xy2+y2
 RESULT: NOT an SS-basis
 Algorithm 1, at most 3 passes:
 _[1]=xy+y
@@ -216,7 +216,7 @@ Generators, degrees, leading forms:
   f2 = ey   degree (2)   leading form: ey
 Generators of ker(pi): 1
 u1 = e*Y1-Y2   Omega (2)
-   NO lifting; psi(u1) has the nonzero normal form ex
+   psi(u1) has the nonzero normal form ex
 RESULT: NOT an SS-basis
 Algorithm 1:
 _[1]=x+y

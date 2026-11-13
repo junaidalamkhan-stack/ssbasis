@@ -1,8 +1,8 @@
 cff-version: 1.2.0
 message: "If you use this software, please cite the paper below."
 title: "ssbasis.lib: subalgebra standard bases (SS-bases) in Singular"
-version: "1.1"
-date-released: "2026-10-17"
+version: "1.2"
+date-released: "2026-11-13"
 license: GPL-3.0-or-later
 repository-code: "https://github.com/junaidalamkhan-stack/ssbasis"
 keywords:

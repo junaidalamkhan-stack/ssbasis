@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////
-version="version ssbasis.lib 1.1 (revised) Oct_2026 ";
+version="version ssbasis.lib 1.2 Nov_2026 ";
 category="Commutative Algebra";
 info="
 LIBRARY:  ssbasis.lib    Subalgebra standard bases (SS-bases): lifting test and completion
@@ -17,40 +17,53 @@ OVERVIEW:
 
  Method.  For F = {f_1,...,f_m} the procedures work in auxiliary rings
  A[x_+, x_0, Y_1..Y_m] (x_+ the variables of positive degree, x_0 those of
- degree 0).  Generators of ker(pi) and ker(psi) are obtained by eliminating
- x_+ from I + <Y_i - LF(f_i)> and I + <Y_i - f_i>; the elimination
- ideal is homogeneous because all input polynomials are.  A homogeneous u
- in ker(pi) is tested for liftability by reducing it modulo a standard basis
- of ker(psi) for a global order refining the formal degree Omega: u admits
- a lifting iff the remainder is 0 or has smaller Omega (over ZZ and ZZ/m this
- uses Singular's strong standard bases).  Subalgebra reduction (Algorithm 1,
- line 7) decides whether a leading form lies in S[LF(F)] by a normal form
- modulo a standard basis of I + <Y_i - LF(f_i)> for an elimination order.
+ degree 0).  Homogeneous generators of ker(pi) are obtained by eliminating
+ x_+ from I + <Y_i - LF(f_i)>, whose generators are homogeneous.  Subalgebra
+ reduction (Algorithm 1, line 7) decides whether a leading form lies in
+ S[LF(F)] by a normal form modulo a standard basis of I + <Y_i - LF(f_i)>
+ for an elimination order (Lemma 4.1(b)).
+
+ Reduction test (default).  For every generator u of ker(pi), psi(u) is
+ reduced.  By Corollary 3.5 the f_i form an SS-basis iff every psi(u)
+ reduces to 0.  A reduction that ends at 0 yields a lifting of u; one that
+ does not yields the element that Algorithm 1 adjoins.  Only ker(pi) is
+ needed.
+
+ Lifting test of Lemma 4.1(a) (optional third argument 1).  Generators of
+ ker(psi) are obtained by eliminating x_+ from I + <Y_i - f_i>, and u is
+ reduced modulo a standard basis of ker(psi) for a global order refining
+ the formal degree Omega: u admits a lifting iff the remainder is 0 or has
+ smaller Omega (over ZZ and ZZ/m this uses Singular's strong standard
+ bases).  This decides for each single u whether it lifts, but computing
+ ker(psi) can need far more time and memory than the reduction test.
 
  Supported input: coefficients a field (including char p and transcendental
  parameters), ZZ or ZZ/m; polynomial rings and quotient rings by
  W-homogeneous ideals; global monomial orderings; W with non-negative
  integer entries and at least one nonzero column.  Unsupported input
- (negative weights, local orderings, inhomogeneous quotient ideals,
- floating-point coefficients, generators that are zero in R) raises an
- ERROR.  SScomplete runs at most a given number of passes, because
+ (negative weights, local orderings, non-commutative baserings,
+ inhomogeneous quotient ideals, floating-point coefficients, generators
+ that are zero in R, ring variables or parameters named Y1,Y2,...) raises
+ an ERROR.  SScomplete runs at most a given number of passes, because
  Algorithm 1 need not terminate.
 
 PROCEDURES:
+ ssLexCmp(a,b);          lexicographic comparison of two intvecs
+ ssExpDeg(e,M);          degree M*e of the exponent vector e
  ssNatural();            1 x n matrix of ones: natural grading
  ssLex();                n x n identity matrix: leading terms for lp
  ssCheckInput(G,W);      validate the input; ERROR if it is not supported
  ssPolyDeg(p,W);         degree of p in R (as an intvec)
  ssLeadForm(p,W);        leading form of p in R
- SSliftingData(G,W);     verdict, leading forms, ker(pi), liftings (list)
- SSliftingTest(G,W);     the same as a printable report
+ SSliftingData(G,W[,e]); verdict, leading forms, ker(pi), liftings (list)
+ SSliftingTest(G,W[,e]); the same as a printable report
  SScomplete(G,W,b);      Algorithm 1 (completion) with at most b passes
 ";
 
 LIB "ring.lib";
 
 ////////////////////////////////////////////////////////////////////////////
-// elementary helpers (the first five are unchanged from version 1.0)
+// elementary helpers //////
 
 proc ssLexCmp(intvec a, intvec b)
 "USAGE:  ssLexCmp(a,b);  a,b intvec of equal length
@@ -97,21 +110,29 @@ RETURN:  the nvars x nvars identity intmat; the leading form of p is then
   return(M);
 }
 
+static proc ssClean(poly p)
+{
+  // Singular (4.3.2) can leave terms with coefficient 0 after a
+  // multiplication when the basering is a qring over ZZ whose ideal contains
+  // a constant (the coefficients are then ZZ/m).  Such a term would be taken
+  // for a leading term, so it is removed here.  Fields and ZZ itself are not
+  // affected.
+  if (!attrib(basering, "ring_cf")) { return(p); }
+  if (charstr(basering) == "ZZ") { return(p); }
+  int i, bad;
+  for (i = size(p); i > 0; i--) { if (leadcoef(p[i]) == 0) { bad = 1; break; } }
+  if (!bad) { return(p); }
+  poly q;
+  for (i = 1; i <= size(p); i++) { if (leadcoef(p[i]) != 0) { q = q + p[i]; } }
+  return(q);
+}
+
 static proc ssRed(poly p)
 {
   // reduced representative of p modulo the quotient ideal of the basering
+  p = ssClean(p);
   if (size(ideal(basering)) == 0) { return(p); }
-  return(reduce(p, std(ideal(0))));
-}
-
-static proc ssIsHomog(poly p, intmat W)
-{
-  int i; intvec d0;
-  if (p == 0) { return(1); }
-  d0 = ssExpDeg(leadexp(p[1]), W);
-  for (i = 2; i <= size(p); i++)
-  { if (ssLexCmp(ssExpDeg(leadexp(p[i]), W), d0) != 0) { return(0); } }
-  return(1);
+  return(ssClean(reduce(p, std(ideal(0)))));
 }
 
 static proc ssRawDeg(poly p, intmat W)
@@ -171,16 +192,39 @@ RETURN:  1 if the input is supported; otherwise an ERROR explains why
     if (nz) { break; }
   }
   if (!nz) { ERROR("every column of W is zero: there is no variable of positive degree"); }
+  if (size(ringlist(basering)) > 4)
+  { ERROR("the basering must be commutative"); }
   if (!hasGlobalOrdering(basering))
   { ERROR("the basering must have a global monomial ordering"); }
   string cs = charstr(basering);
   if (find(cs, "real") || find(cs, "Float") || find(cs, "complex"))
   { ERROR("floating-point coefficients are not supported"); }
-  ideal I = ideal(basering);
-  for (i = 1; i <= ncols(I); i++)
+  // The quotient ideal I is W-homogeneous iff every W-homogeneous component
+  // of each of its generators lies in I.  This is tested in the polynomial
+  // ring above the basering: the stored standard basis of I need not consist
+  // of homogeneous polynomials, and option(qringNF) must not interfere.
+  def R = basering;
+  ideal I = ideal(R);
+  if (size(I) != 0)
   {
-    if (!ssIsHomog(I[i], W))
-    { ERROR("the quotient ideal is not homogeneous for the grading W"); }
+    list RL = ringlist(R); RL[4] = ideal(0);
+    def P = ring(RL); setring P;
+    ideal J = imap(R, I); ideal SJ = std(J);
+    poly q, c; intvec d0; int l;
+    for (i = 1; i <= ncols(J); i++)
+    {
+      q = J[i];
+      while (q != 0)
+      {
+        d0 = ssExpDeg(leadexp(q[1]), W); c = 0;
+        for (l = 1; l <= size(q); l++)
+        { if (ssLexCmp(ssExpDeg(leadexp(q[l]), W), d0) == 0) { c = c + q[l]; } }
+        if (reduce(c, SJ) != 0)
+        { ERROR("the quotient ideal is not homogeneous for the grading W"); }
+        q = q - c;
+      }
+    }
+    setring R;
   }
   if (size(G) == 0) { ERROR("no nonzero generators given"); }
   for (i = 1; i <= ncols(G); i++)
@@ -191,6 +235,11 @@ RETURN:  1 if the input is supported; otherwise an ERROR explains why
     {
       if (varstr(j) == "Y" + string(i))
       { ERROR("the ring variable " + varstr(j) + " clashes with the auxiliary variables Y1,Y2,...; please rename it"); }
+    }
+    for (j = 1; j <= npars(basering); j++)
+    {
+      if (parstr(j) == "Y" + string(i))
+      { ERROR("the ring parameter " + parstr(j) + " clashes with the auxiliary variables Y1,Y2,...; please rename it"); }
     }
   }
   return(1);
@@ -229,12 +278,18 @@ static proc ssXfree(poly p, int np)
 ////////////////////////////////////////////////////////////////////////////
 // the core computation
 
-static proc ssCore(ideal G, intmat W, int allnf)
+static proc ssCore(ideal G, intmat W, int exact)
 {
-  // allnf = 0: compute an S-normal form of psi(u) only for non-liftable u
-  // allnf = 1: compute one for every u (one pass of Algorithm 1)
-  // RETURN: list(ok, LFstrings, D, Ustrings, OmegaStrings, liftStrings, N)
-  //         N = ideal of the nonzero normal forms (in the basering)
+  // exact = 0: reduction test (Corollary 3.5), which is also one pass of
+  //            Algorithm 1: psi(u) is reduced for every generator u of
+  //            ker(pi); a reduction that ends at 0 gives a lifting of u;
+  //            ok = 1 iff every reduction ends at 0.  ker(psi) is not needed
+  //            and not computed.
+  // exact = 1: lifting test of Lemma 4.1(a): liftability of every u is
+  //            decided with a standard basis of ker(psi); an S-normal form
+  //            of psi(u) is computed only for non-liftable u
+  // RETURN: list(ok, LFstrings, D, Ustrings, OmegaStrings, liftStrings,
+  //              NFstrings, N),  N = ideal of the nonzero normal forms
   int chk = ssCheckInput(G, W);
   def R = basering;
   int n = nvars(R); int m = ncols(G); int k = nrows(W);
@@ -297,14 +352,15 @@ static proc ssCore(ideal G, intmat W, int allnf)
     Jpi[ncols(Jpi)+1] = var(np+nz+i) - LFE[i];
   }
   Jpsi = simplify(Jpsi, 2); Jpi = simplify(Jpi, 2);
-  // ker(psi): elimination of x_+ with eliminate() in a ring with the order dp
-  // (much faster here than a standard basis for the block order of E,
-  // because Jpsi is inhomogeneous)
+  // ker(psi), only for exact = 1: elimination of x_+ with eliminate() in a
+  // ring with the order dp (much faster here than a standard basis for the
+  // block order of E, because Jpsi is inhomogeneous)
   setring ED;
   ideal JpsiD = imap(E, Jpsi); ideal IED = imap(E, IE);
   poly xprod = 1;
   for (i = 1; i <= np; i++) { xprod = xprod * var(i); }
-  ideal KpsiD = simplify(eliminate(JpsiD, xprod), 2);
+  ideal KpsiD;
+  if (exact) { KpsiD = simplify(eliminate(JpsiD, xprod), 2); }
   ideal K0D = simplify(eliminate(IED, xprod), 2);
   setring E;
   ideal Kpsi = imap(ED, KpsiD);
@@ -317,7 +373,7 @@ static proc ssCore(ideal G, intmat W, int allnf)
   { if (SBpi[i] != 0) { if (ssXfree(SBpi[i], np)) { Kpi[ncols(Kpi)+1] = SBpi[i]; } } }
   Kpsi = simplify(Kpsi, 2); Kpi = simplify(Kpi, 2);
   // I_0 = I intersected with A[x_0]: relations that are already zero in S[Y]
-  poly nf, Qg; intvec e;
+  poly nf, Qg, Hsum; intvec e;
   // the ring Q = A[x_0, Y] with an order refining Omega
   setring Q;
   ideal KP = std(imap(E, Kpsi));
@@ -360,7 +416,8 @@ static proc ssCore(ideal G, intmat W, int allnf)
     i--;
   }
   if (size(U) == 0) { U = ideal(0); }
-  // liftability (Lemma 4.1(a) of the paper)
+  // exact = 1: liftability by Lemma 4.1(a) of the paper;
+  // exact = 0: every psi(u) is reduced below
   list Us, Oms, Lifts; int ok = 1; poly rem; list needNF;
   int nU = 0;
   for (i = 1; i <= ncols(U); i++)
@@ -370,13 +427,17 @@ static proc ssCore(ideal G, intmat W, int allnf)
     nU++;
     Us[nU] = string(U[i]);
     Oms[nU] = string(ssOmegaPoly(U[i], D, nz));
-    rem = reduce(U[i], KP);
-    if (rem == 0) { Lifts[nU] = string(U[i]); needNF[nU] = allnf; }
+    if (!exact) { Lifts[nU] = ""; needNF[nU] = 1; }
     else
     {
-      if (ssLexCmp(ssOmegaPoly(rem, D, nz), ssOmegaPoly(U[i], D, nz)) == -1)
-      { Lifts[nU] = string(U[i] - rem); needNF[nU] = allnf; }
-      else { Lifts[nU] = ""; ok = 0; needNF[nU] = 1; }
+      rem = reduce(U[i], KP);
+      if (rem == 0) { Lifts[nU] = string(U[i]); needNF[nU] = 0; }
+      else
+      {
+        if (ssLexCmp(ssOmegaPoly(rem, D, nz), ssOmegaPoly(U[i], D, nz)) == -1)
+        { Lifts[nU] = string(U[i] - rem); needNF[nU] = 0; }
+        else { Lifts[nU] = ""; ok = 0; needNF[nU] = 1; }
+      }
     }
     }
   }
@@ -391,6 +452,7 @@ static proc ssCore(ideal G, intmat W, int allnf)
     if (needNF[i])
     {
     w = ssRed(PU[i]);
+    setring E; Hsum = 0; setring R;
     while (w != 0)
     {
       lw = ssLeadForm(w, W); gam = ssRawDeg(w, W);
@@ -403,11 +465,18 @@ static proc ssCore(ideal G, intmat W, int allnf)
         e = leadexp(nf[j]);
         if (ssLexCmp(ssOmega(e, D, np+nz), gam) == 0) { Qg = Qg + nf[j]; }
       }
+      Hsum = Hsum + Qg;
       setring R;
       if (psiE(Qg) == 0) { ERROR("internal error: empty reduction step"); }
       w = ssRed(w - psiE(Qg));
     }
-    if (w != 0) { nn++; N[nn] = w; NFs[i] = string(w); }
+    if (w != 0) { nn++; N[nn] = w; NFs[i] = string(w); ok = 0; }
+    else
+    {
+      // the reduction ended at 0: psi(u) = psi(Hsum), and every term of Hsum
+      // has smaller Omega than u, so u - Hsum is a lifting (Corollary 3.5)
+      if (!exact) { setring Q; Lifts[i] = string(U[i] - imap(E, Hsum)); setring R; }
+    }
     }
   }
   N = simplify(N, 2+4);
@@ -417,23 +486,43 @@ static proc ssCore(ideal G, intmat W, int allnf)
 ////////////////////////////////////////////////////////////////////////////
 // user procedures
 
-proc SSliftingData(ideal G, intmat W)
-"USAGE:  SSliftingData(G,W);  G ideal (generators f_1..f_m), W intmat
+static proc ssExact(list #)
+{
+  // the optional third argument of SSliftingData and SSliftingTest
+  if (size(#) == 0) { return(0); }
+  if (size(#) > 1) { ERROR("too many arguments"); }
+  if (typeof(#[1]) != "int") { ERROR("the optional third argument must be an int (0 or 1)"); }
+  return(#[1] != 0);
+}
+
+proc SSliftingData(ideal G, intmat W, list #)
+"USAGE:  SSliftingData(G,W[,e]);  G ideal (generators f_1..f_m), W intmat,
+         e int (optional, default 0)
 RETURN:  list L with
-         L[1]  int: 1 if every computed generator of ker(pi) lifts, i.e. the
-               f_i form an SS-basis of S[f_1..f_m], and 0 otherwise
+         L[1]  int: 1 if the f_i form an SS-basis of S[f_1..f_m], and 0
+               otherwise
          L[2]  list of strings: the leading forms Upsilon(f_i)
          L[3]  intmat D: column i is the degree of f_i
          L[4]  list of strings: homogeneous generators u_j of ker(pi)
          L[5]  list of strings: Omega(u_j)
-         L[6]  list of strings: a lifting of u_j, or \"\" if none exists
-         L[7]  list of strings: for non-liftable u_j, a nonzero S-normal form
-               of psi(u_j) (the element Algorithm 1 adjoins), else \"\"
+         L[6]  list of strings: a lifting of u_j, or \"\"
+         L[7]  list of strings: a nonzero S-normal form of psi(u_j) (an
+               element that Algorithm 1 adjoins), or \"\"
          L[8]  ideal of these normal forms (in the basering)
+NOTE:    e = 0 (reduction test, Corollary 3.5): psi(u_j) is reduced for
+         every j.  If the reduction ends at 0, L[6][j] is the lifting it
+         yields and L[7][j] is empty; otherwise L[6][j] is empty and L[7][j]
+         is the normal form reached.  L[1] = 1 iff every reduction ends at 0.
+         Only ker(pi) is computed.
+         e = 1 (lifting test, Lemma 4.1(a)): L[6][j] is a lifting of u_j, or
+         empty if u_j has no lifting; in the latter case L[7][j] is a nonzero
+         S-normal form of psi(u_j).  L[1] = 1 iff every u_j lifts.  This
+         needs ker(psi), which can take far more time and memory.
+         Both tests give the same L[1].
 EXAMPLE: example SSliftingData; shows an example
 "
 {
-  return(ssCore(G, W, 0));
+  return(ssCore(G, W, ssExact(#)));
 }
 example
 { "EXAMPLE:"; echo = 2;
@@ -443,23 +532,29 @@ example
   L[1]; L[4]; L[6]; L[7];
 }
 
-proc SSliftingTest(ideal G, intmat W)
-"USAGE:  SSliftingTest(G,W);  G ideal (generators f_1..f_m), W intmat
+proc SSliftingTest(ideal G, intmat W, list #)
+"USAGE:  SSliftingTest(G,W[,e]);  G ideal (generators f_1..f_m), W intmat,
+         e int (optional, default 0)
 RETURN:  string: generators, degrees and leading forms, homogeneous
-         generators of ker(pi) with their formal degrees, a lifting of each
-         generator or a nonzero S-normal form of psi(u) when no lifting
-         exists, and the verdict of the lifting criterion
+         generators of ker(pi) with their formal degrees, for each generator
+         u a lifting or a nonzero S-normal form of psi(u), and the verdict
+NOTE:    e = 0: reduction test (Corollary 3.5); a lifting is printed when
+         the reduction of psi(u) ends at 0, the normal form otherwise.
+         e = 1: lifting test (Lemma 4.1(a)); a lifting is printed whenever u
+         has one, and \"NO lifting\" with a normal form of psi(u) otherwise.
+         See SSliftingData.
 EXAMPLE: example SSliftingTest; shows an example
 "
 {
-  list L = ssCore(G, W, 0);
+  int exact = ssExact(#);
+  list L = ssCore(G, W, exact);
   int i, j; intvec dg; intmat D = L[3];
   string out = "Generators, degrees, leading forms:" + newline;
   for (i = 1; i <= ncols(G); i++)
   {
     dg = 0:nrows(D);
     for (j = 1; j <= nrows(D); j++) { dg[j] = D[j,i]; }
-    out = out + "  f" + string(i) + " = " + string(G[i]) + "   degree (" + string(dg)
+    out = out + "  f" + string(i) + " = " + string(ssRed(G[i])) + "   degree (" + string(dg)
               + ")   leading form: " + L[2][i] + newline;
   }
   out = out + "Generators of ker(pi): " + string(size(L[4])) + newline;
@@ -469,8 +564,9 @@ EXAMPLE: example SSliftingTest; shows an example
     if (L[6][i] != "") { out = out + "   lifting: " + L[6][i] + newline; }
     else
     {
-      out = out + "   NO lifting; psi(u" + string(i) + ") has the nonzero normal form "
-                + L[7][i] + newline;
+      if (exact) { out = out + "   NO lifting; psi(u"; }
+      else { out = out + "   psi(u"; }
+      out = out + string(i) + ") has the nonzero normal form " + L[7][i] + newline;
     }
   }
   if (L[1]) { out = out + "RESULT: every generator lifts, so the generators form an SS-basis"; }
@@ -502,7 +598,7 @@ EXAMPLE: example SScomplete; shows an example
   list L; ideal N;
   for (pass = 1; pass <= maxpass; pass++)
   {
-    L = ssCore(F, W, 1);
+    L = ssCore(F, W, 0);
     N = L[8];
     if (size(N) == 0) { done = 1; break; }
     for (i = 1; i <= ncols(N); i++) { if (N[i] != 0) { F[ncols(F)+1] = N[i]; } }
